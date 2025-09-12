@@ -1,5 +1,6 @@
 const previousDisplay = document.getElementById("previous");
 const currentDisplay = document.getElementById("current");
+const themeSwitch = document.getElementById("theme-switch");
 let currentInput = "0";
 let previousInput = "";
 let operator = null;
@@ -56,11 +57,10 @@ function calculateResult() {
   updateDisplay();
 }
 
-// ✅ Keyboard Support
 document.addEventListener("keydown", (e) => {
   if (!isNaN(e.key)) {
     appendNumber(e.key);
-  } else if (["+", "-", "*", "/","%"].includes(e.key)) {
+  } else if (["+", "-", "*", "/", "%"].includes(e.key)) {
     appendOperator(e.key);
   } else if (e.key === "Enter") {
     calculateResult();
@@ -70,5 +70,23 @@ document.addEventListener("keydown", (e) => {
     clearDisplay();
   } else if (e.key === ".") {
     appendNumber(".");
+  }
+});
+
+if (localStorage.getItem("theme") === "light") {
+  document.body.classList.remove("dark");
+  document.body.classList.add("light");
+  themeSwitch.checked = true;
+}
+
+themeSwitch.addEventListener("change", () => {
+  if (themeSwitch.checked) {
+    document.body.classList.remove("dark");
+    document.body.classList.add("light");
+    localStorage.setItem("theme", "light");
+  } else {
+    document.body.classList.remove("light");
+    document.body.classList.add("dark");
+    localStorage.setItem("theme", "dark");
   }
 });
